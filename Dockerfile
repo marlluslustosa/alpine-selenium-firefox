@@ -9,12 +9,15 @@ RUN echo "http://dl-4.alpinelinux.org/alpine/v3.7/main" >> /etc/apk/repositories
 
 RUN apk update && \
 	apk add python py-pip curl unzip dbus-x11 ttf-freefont xvfb && \
-	apk add firefox=58.0.1-r2 && \
 	pip install selenium && \
 	pip install pyvirtualdisplay && \
 	pip install python-crontab && \
 	pip install autossh && \
 	pip install nginx
+
+# firefox 58 testing
+apk add firefox=58.0.1-r2 --update-cache --repository http://dl-4.alpinelinux.org/alpine/edge/testing/ --allow-untrusted
+#apk add --allow-untrusted http://dl-4.alpinelinux.org/alpine/edge/testing/x86_64/firefox-58.0.1-r2.apk
 
 #geckodriver
 # https://github.com/mozilla/geckodriver/releases/
