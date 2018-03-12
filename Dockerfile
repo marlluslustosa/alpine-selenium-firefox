@@ -1,24 +1,26 @@
-# Selenium + Firefox
+# Selenium + Firefox + python + display virtual + autossh + python-crontab + nginx
 
-FROM alpine:3.4
-MAINTAINER leafney "babycoolzx@126.com"
+FROM alpine:3.7
+MAINTAINER lulu "marlluslustosa@gmail.com"
 
-# 更新软件源
-RUN echo "http://dl-4.alpinelinux.org/alpine/v3.4/main" >> /etc/apk/repositories && \
-	echo "http://dl-4.alpinelinux.org/alpine/v3.4/community" >> /etc/apk/repositories
-
+# install alpine
+RUN echo "http://dl-4.alpinelinux.org/alpine/v3.7/main" >> /etc/apk/repositories && \
+	echo "http://dl-4.alpinelinux.org/alpine/v3.7/community" >> /etc/apk/repositories
 
 RUN apk update && \
-	apk add python py-pip curl unzip dbus-x11 ttf-freefont firefox-esr xvfb && \
+	apk add python py-pip curl unzip dbus-x11 ttf-freefont xvfb && \
+	apk add firefox=58.0.1-r2 && \
 	pip install selenium && \
-	pip install pyvirtualdisplay
+	pip install pyvirtualdisplay && \
+	pip install python-crontab && \
+	pip install autossh && \
+	pip install nginx
 
-# 从网上下载 geckodriver
-#RUN curl https://github.com/mozilla/geckodriver/releases/download/v0.11.1/geckodriver-v0.11.1-linux64.tar.gz -O && \
-#	tar -zxvf geckodriver-v0.11.1-linux64.tar.gz && \
-#	mv ./geckodriver /usr/local/bin/ && \
-#	chmod a+x /usr/local/bin/geckodriver
+#geckodriver
+# https://github.com/mozilla/geckodriver/releases/
+RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-linux64.tar.gz && \
+	tar -zxvf geckodriver-v0.19.1-linux64.tar.gz
 
-# 拷贝本地的 geckodriver
- COPY ./geckodriver /usr/local/bin/
- RUN chmod a+x /usr/local/bin/geckodriver
+COPY ./geckodriver /usr/local/bin/
+RUN chmod a+x /usr/local/bin/geckodriver
+
